@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shopping_list/models/product.dart';
 import 'package:shopping_list/widgets/left_drawer.dart';
+import 'package:shopping_list/models/items.dart';
 
 class ProductPage extends StatefulWidget {
     const ProductPage({Key? key}) : super(key: key);
@@ -12,10 +13,10 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-Future<List<Product>> fetchProduct() async {
+Future<List<Item>> fetchProduct() async {
     // url ini
     var url = Uri.parse(
-        'http://127.0.0.1:8000/json/');
+        'https://kevin-ignatius-tugas.pbp.cs.ui.ac.id/json/');
     var response = await http.get(
         url,
         headers: {"Content-Type": "application/json"},
@@ -25,10 +26,10 @@ Future<List<Product>> fetchProduct() async {
     var data = jsonDecode(utf8.decode(response.bodyBytes));
 
     // melakukan konversi data json menjadi object Product
-    List<Product> list_product = [];
+    List<Item> list_product = [];
     for (var d in data) {
         if (d != null) {
-            list_product.add(Product.fromJson(d));
+            list_product.add(Item.fromJson(d));
         }
     }
     return list_product;
@@ -77,7 +78,7 @@ Widget build(BuildContext context) {
                                     ),
                                     ),
                                     const SizedBox(height: 10),
-                                    Text("${snapshot.data![index].fields.price}"),
+                                    Text("${snapshot.data![index].fields.amount}"),
                                     const SizedBox(height: 10),
                                     Text(
                                         "${snapshot.data![index].fields.description}")
